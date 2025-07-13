@@ -10,7 +10,7 @@ SELECT
     'CORE_STOCK_FLAG',
     'PUBLICATION_DATE'
     ]) 
-  }} as primary_key, 
+  }} as BookKey, 
     ISBN, 
     Author,
     Title, 
@@ -18,4 +18,4 @@ SELECT
     RRP,
     CORE_STOCK_FLAG,
     PUBLICATION_DATE
-FROM {{ source('raw', 'store_sales') }}
+FROM {{ source('raw', 'store_sales') }} 
