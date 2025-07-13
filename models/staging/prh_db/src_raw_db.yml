@@ -1,0 +1,64 @@
+version: 2
+
+sources:
+  - name: raw
+    database: prh_commercial_sales
+    schema: raw
+    description: "Raw store sales data from PRH_COMMERCIAL_SALES.RAW"
+
+    tables:
+      - name: store_sales
+        description: "Raw table containing sales, stock and product metadata for each store"
+        columns:
+          - name: created_at
+            description: "Record creation timestamp"
+          - name: updated_at
+            description: "Record update timestamp"
+          - name: store_number
+            description: "Unique store identifier"
+          - name: store_name
+            description: "Store name"
+          - name: area_number
+            description: "Area code the store belongs to"
+          - name: area_name
+            description: "Area name"
+          - name: isbn
+            description: "Product ISBN"
+          - name: author
+            description: "Author of the title"
+          - name: title
+            description: "Title of the product"
+          - name: publisher
+            description: "Publisher name"
+          - name: imprint
+            description: "Imprint name"
+          - name: availability
+            description: "Product availability status"
+          - name: rrp
+            description: "Recommended retail price"
+          - name: core_stock_flag
+            description: "Flag indicating if item is core stock"
+          - name: publication_date
+            description: "Publication date (string format)"
+          - name: product_group
+            description: "Product group"
+          - name: department
+            description: "Department"
+          - name: sub_department
+            description: "Sub-department"
+          - name: class
+            description: "Product class"
+          - name: qty_on_hand
+            description: "Quantity currently in store"
+          - name: qty_on_order
+            description: "Quantity currently on order"
+          - name: qty_received
+            description: "Quantity received"
+          - name: qty_returned
+            description: "Quantity returned"
+          - name: qty_sold
+            description: "Quantity sold"
+          - name: hub_qty_on_hand
+            description: "Quantity held at hub"
+          - name: hub_qty_on_order
+            description: "Quantity on order at hub"
