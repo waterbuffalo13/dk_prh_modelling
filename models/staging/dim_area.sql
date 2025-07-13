@@ -3,11 +3,9 @@
 SELECT 
   DISTINCT {{ dbt_utils.generate_surrogate_key([
         'AREA_NUMBER',
-        'AREA_NAME',
-        'STORE_NAME'
     ]) 
-  }} as AreaID, 
+  }} as AreaKey, 
   AREA_NUMBER,
-  AREA_NAME,
-  STORE_NAME
+  AREA_NAME
 FROM {{ source('raw', 'store_sales') }}
+ORDER BY AREA_NUMBER
