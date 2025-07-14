@@ -4,7 +4,7 @@
 ## Design Decision #1:  Choice of Dimensions (Area, Author, Book, Genre, Publisher, Store) 
 
 I chose to break the dataset into six entities for the following reason: 
-  - **Area: The geographic region where products are sold in **
+  - **Area: The geographic region where products are sold in.**
     -   Definitions may change or be augmented over time 
     -   Important for slicing against sales and books for insight
     -   Duplication of AREA_NUMBER and AREA_NAME attributes
