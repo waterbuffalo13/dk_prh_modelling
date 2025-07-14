@@ -1,9 +1,9 @@
 # Data Platform Engineer Technical Assessment: Data Modelling & Transformation
 
 ## Data Model Justification:
-### Design Decision #1:  Choice of Dimensions (Area, Author, Book, Genre, Publisher, Store) 
+### Design Decision #1: Normalising into Facts and Dimensions
 
-I chose to break the dataset into six entities for the following reason: 
+I chose to break the dataset into the following six entities:
   - **Area: The geographic region where products are sold in.**
     -   Definitions may change or be augmented over time 
     -   Important for slicing against sales and books for insight
@@ -27,6 +27,7 @@ I chose to break the dataset into six entities for the following reason:
       - Finances are the most important thing to keep track of within a business.
      **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
       - Considered further segmenting into FactOrders but need more information on how orders are processed
+      
 
 #Project Overview
 #Data Quality 
