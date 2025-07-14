@@ -22,9 +22,9 @@ I chose to break the dataset into six entities for the following reason:
     -   Makes it easy to keep track of DK's sales channels and how this evolves over time
     -   Understanding what makes a particular store more profitable then another
 ### Decision Decision #2: Choices of Facts (Fact_Sales, FactInventory)
-    - **Fact Sales: A unified table to keep track of sales and returns that occur across the business**
+    - **FactSales: A unified table to keep track of sales and returns that occur across the business.**
       - Finances are the most important thing to keep track of within a business.
-    - Fact Inventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED
+    - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
       - Considered further segmenting into FactOrders but need more information on how orders are processed
 
 #Project Overview
