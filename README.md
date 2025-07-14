@@ -18,7 +18,7 @@ I chose to break the dataset into six entities for the following reason:
   - **Genre: The various categories and subcategories a book may fall into.**
     -   Categories may change over time based on the nature of books sold and business changes
     -   Centralised place to modify your categories (modify once in the genre, instead of applying a giant update statement in the RAW table)
-  - **Store: _A place where books are sold.**
+  - **Store: A place where books are sold.**
     -   Makes it easy to keep track of DK's sales channels and how this evolves over time
     -   Understanding what makes a particular store more profitable then another
 ## Decision Decision #2: 2 Fact Tables
