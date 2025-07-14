@@ -1,4 +1,4 @@
-{{ config(materialized = 'table', schema = "staging") }}
+{{ config(materialized = 'table', schema = "MART") }}
 
 WITH AUTHORSCTE AS (
     SELECT SPLIT(TRIM(AUTHOR), ';') AS authors_array

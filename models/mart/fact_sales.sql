@@ -1,4 +1,4 @@
-{{ config(materialized = 'table', schema = "staging") }}
+{{ config(materialized = 'table', schema = "MART") }}
 
 SELECT 
     CAST(CREATED_AT AS DATE) AS "Snapshot Date",

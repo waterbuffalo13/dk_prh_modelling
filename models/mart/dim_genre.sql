@@ -1,4 +1,4 @@
-{{ config(materialized = 'table', schema = "staging") }}
+{{ config(materialized = 'table', schema = "MART") }}
 
 SELECT 
   DISTINCT {{ dbt_utils.generate_surrogate_key([
