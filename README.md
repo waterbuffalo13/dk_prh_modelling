@@ -1,7 +1,7 @@
 # Data Platform Engineer Technical Assessment: Data Modelling & Transformation
 
-# Data Model Justification:
-## Design Decision #1:  Choice of Dimensions (Area, Author, Book, Genre, Publisher, Store) 
+## Data Model Justification:
+### Design Decision #1:  Choice of Dimensions (Area, Author, Book, Genre, Publisher, Store) 
 
 I chose to break the dataset into six entities for the following reason: 
   - **Area: The geographic region where products are sold in.**
@@ -21,7 +21,7 @@ I chose to break the dataset into six entities for the following reason:
   - **Store: A place where books are sold.**
     -   Makes it easy to keep track of DK's sales channels and how this evolves over time
     -   Understanding what makes a particular store more profitable then another
-## Decision Decision #2: 2 Fact Tables
+### Decision Decision #2: 2 Fact Tables
 
 
 #Project Overview
