@@ -7,7 +7,7 @@ SELECT
         'SUB_DEPARTMENT',
         'CLASS'
     ]) 
-  }} as ProductKey, 
+  }} as GenreKey, 
   PRODUCT_GROUP,
   DEPARTMENT,
   SUB_DEPARTMENT,

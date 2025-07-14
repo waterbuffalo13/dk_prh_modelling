@@ -12,10 +12,18 @@ SELECT
     ]) 
   }} as BookKey, 
     ISBN, 
-    Author,
+    SPLIT(Author, ';') AS Authors,
     Title, 
     Publisher,
     RRP,
     CORE_STOCK_FLAG,
-    PUBLICATION_DATE
+    PUBLICATION_DATE,
+    AVAILABILITY,
+    {{ dbt_utils.generate_surrogate_key([
+        'PRODUCT_GROUP',
+        'DEPARTMENT',
+        'SUB_DEPARTMENT',
+        'CLASS'
+    ]) }} AS GenreKey
 FROM {{ source('raw', 'store_sales') }} 
+
