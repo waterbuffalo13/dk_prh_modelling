@@ -1,5 +1,4 @@
--- {{ config(materialized = 'table', schema = "staging") }}
-
+{{ config(materialized = 'table', schema = "MART") }}
 
 SELECT 
 DISTINCT {{ dbt_utils.generate_surrogate_key([
@@ -13,4 +12,4 @@ STORE_NAME,
         'AREA_NUMBER'
     ]) 
 }} as AreaKey
-FROM {{ source('raw', 'store_sales') }} 
+FROM {{ ref('store_sales_cleaned') }}
