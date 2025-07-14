@@ -18,6 +18,7 @@ SELECT
     RRP,
     CORE_STOCK_FLAG,
     PUBLICATION_DATE,
+    AVAILABILITY,
     {{ dbt_utils.generate_surrogate_key([
         'PRODUCT_GROUP',
         'DEPARTMENT',
