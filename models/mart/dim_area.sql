@@ -7,5 +7,5 @@ SELECT
   }} as AreaKey, 
   AREA_NUMBER,
   AREA_NAME
-FROM {{ source('raw', 'store_sales') }}
+FROM {{ ref('store_sales_cleaned') }}
 ORDER BY AREA_NUMBER

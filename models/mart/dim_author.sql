@@ -1,21 +1,22 @@
 {{ config(materialized = 'table', schema = "MART") }}
 
-WITH AUTHORSCTE AS (
-    SELECT SPLIT(TRIM(AUTHOR), ';') AS authors_array
-    FROM {{ source('raw', 'store_sales') }}
-)
-
 SELECT 
-    DISTINCT {{ dbt_utils.generate_surrogate_key([
-        'f.value'
-        ]) 
-    }} as AuthorKey,
-  TRIM(f.value) AS author_name,
-  SPLIT_PART(TRIM(f.value), ',', 1) AS last_name,
-  SPLIT_PART(TRIM(f.value), ',', 2) AS first_name
-
-FROM AUTHORSCTE a,
-LATERAL FLATTEN(input => a.authors_array) f
-ORDER BY author_name ASC
+  DISTINCT {{ dbt_utils.generate_surrogate_key([
+        'AUTHORS',
+    ]) 
+  }} as AuthorKey, 
+  f.value::string AS FULL_NAME,
+    IFF(
+        POSITION(',' IN f.value) > 0,             
+        TRIM(SPLIT_PART(f.value, ',', 2)),         
+        TRIM(f.value)  
+    ) AS FIRST_NAME,
+    IFF(
+        POSITION(',' IN f.value) > 0,
+        SPLIT_PART(TRIM(f.value), ',', 1),
+        ''
+    ) AS LAST_NAMES
+FROM  {{ ref('store_sales_cleaned') }} s,
+LATERAL FLATTEN(input=>authors) f
 
 

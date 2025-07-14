@@ -3,9 +3,9 @@
 SELECT 
     CAST(CREATED_AT AS DATE) AS "Snapshot Date",
     STORE_NAME,
-    TITLE,
-    RRP,
+    BOOK_NAME,
+    PRICE,
     QTY_SOLD,
-    QTY_RETURNED,
-    (QTY_SOLD * RRP) - (QTY_RETURNED*RRP)  AS "GBP_SALES_AMOUNT"
-FROM {{ source('raw', 'store_sales') }} 
+    QTY_REFUNDED,
+    (QTY_SOLD * PRICE) - (QTY_REFUNDED*PRICE)  AS "GBP_SALES_AMOUNT"
+FROM {{ ref('store_sales_cleaned') }}

@@ -2,10 +2,11 @@
 
 SELECT 
   DISTINCT {{ dbt_utils.generate_surrogate_key([
-    'Publisher', 'Imprint'
+    'PUBLISHER_NAME', 'PUBLISHER_IMPRINT'
     ]) 
-  }} as PublisherImprintKey, 
-    Publisher,
-    Imprint 
-FROM {{ source('raw', 'store_sales') }} 
-ORDER BY Publisher, Imprint
+  }} as PUBLISHER_KEY, 
+    PUBLISHER_NAME,
+    PUBLISHER_IMPRINT
+FROM {{ ref('store_sales_cleaned') }}
+ORDER BY PUBLISHER_NAME,
+    PUBLISHER_IMPRINT 

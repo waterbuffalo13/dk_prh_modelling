@@ -2,20 +2,13 @@
 
 SELECT 
   DISTINCT {{ dbt_utils.generate_surrogate_key([
-    'ISBN', 
-    'Author',
-    'Title', 
-    'Publisher',
-    'RRP',
-    'CORE_STOCK_FLAG',
-    'PUBLICATION_DATE'
-    ]) 
-  }} as BookKey, 
-    ISBN, 
-    SPLIT(Author, ';') AS Authors,
-    Title, 
-    Publisher,
-    RRP,
+    'BOOK_ISBN' ]) 
+  }} as BOOK_KEY, 
+    BOOK_ISBN,  
+    PUBLISHER_NAME,
+    AUTHORS,
+    BOOK_NAME,
+    PRICE,
     CORE_STOCK_FLAG,
     PUBLICATION_DATE,
     AVAILABILITY,
@@ -24,6 +17,6 @@ SELECT
         'DEPARTMENT',
         'SUB_DEPARTMENT',
         'CLASS'
-    ]) }} AS GenreKey
-FROM {{ source('raw', 'store_sales') }} 
+    ]) }} AS CategoryKey
+FROM {{ ref('store_sales_cleaned') }}
 
