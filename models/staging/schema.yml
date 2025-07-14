@@ -1,0 +1,12 @@
+
+version: 2
+
+models:
+    - name: store_sales_cleaned
+      description: "test"
+      columns:
+          - name: snapshot_date
+            description: "The primary key for this table"
+            tests:
+                - not_null
+
