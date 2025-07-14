@@ -8,3 +8,4 @@ SELECT
     Publisher,
     Imprint 
 FROM {{ source('raw', 'store_sales') }} 
+ORDER BY Publisher, Imprint
