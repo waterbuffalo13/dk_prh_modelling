@@ -5,6 +5,11 @@ SELECT
     STORE_NAME,
     BOOK_ISBN,
     BOOK_NAME,
+    {{ dbt_utils.generate_surrogate_key(['BOOK_ISBN']) }} as BOOK_KEY,
+  {{ dbt_utils.generate_surrogate_key([
+        'AREA_NUMBER'
+    ]) 
+  }} as AREA_KEY,
     PRICE,
     QTY_ON_HAND AS "STOCK_COUNT",
     QTY_ON_ORDER AS "ORDERS_REQUESTED",
