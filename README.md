@@ -7,7 +7,7 @@ I chose to break the dataset into the following six dimensions:
   - **Area[AREA_KEY, AREA_NUMBER, STORE_KEY]**
     - Understand the geographic region the product was sold in
     - STORE_KEY foreign key to include access to store level
-  - **Author[AUTHOR_KEY, FULL_NAME, FIRST_NAME, LAST_NAME ] **
+  - **Author[AUTHOR_KEY, FULL_NAME, FIRST_NAME, LAST_NAME ]**
     -   In RAW_SALES, the authors are listed as an array which makes it hard to track which authors are involved in the creation of which books (only unique combinations will be tracked instead)
     -   One author can write many books, and a book can be written by many authors
     -   Prices and titles may change over time (e.g. their price)
@@ -27,7 +27,7 @@ As well as into the following fact tables:
 - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
 
 Considered dimensions:
-- **FactOrders: Potentially a good abstraction but not enough information to map QTY_ON_ORDER to QTY_RECIEVED) **
+- **FactOrders: Potentially a good abstraction but not enough information to map QTY_ON_ORDER to QTY_RECIEVED)**
 - **DimAvailability: Too small to normalise out by itself, but would fit will in a junk dimension**
 
 
@@ -65,18 +65,18 @@ Tests:
         - 
 # Assumptions & Challenges
 Assumptions:
-    - That this is the only information in the data warehouse and cannot be enriched/validated with alternative sources
-    - Various column definitions (CORE_FLAG_STOCK) 
-    - Determining the Sales Amount as RRP * QTY_SOLD (when in reality prices is not always the RRP)
-    - Incoming data will not contain any NULL values
-    - Duplicate entries are not possible (QTY_ON_HAND) could/should change after a transactions
+- That this is the only information in the data warehouse and cannot be enriched/validated with alternative sources
+- Various column definitions (CORE_FLAG_STOCK) 
+- Determining the Sales Amount as RRP * QTY_SOLD (when in reality prices is not always the RRP)
+- Incoming data will not contain any NULL values
+- Duplicate entries are not possible (QTY_ON_HAND) could/should change after a transactions
 
 Challenges:
-    - Ensuring the fact table keys match up with the dimension keys
-    - Choosing whether to normalise or denormalise entities
-    - Understanding the best approach to understand many to many relationships.
-    - Connecting snowflake to DBT (finding the right account name)
-    - Replacing the auto-generated schema name concatenated with my DBT account name
-    - Importing dbt_utils
+- Ensuring the fact table keys match up with the dimension keys
+- Choosing whether to normalise or denormalise entities
+- Understanding the best approach to understand many to many relationships.
+- Connecting snowflake to DBT (finding the right account name)
+- Removing the auto-generated schema name generated using my DBT account name
+- Importing dbt_utils
   
 #Bonus Questions
