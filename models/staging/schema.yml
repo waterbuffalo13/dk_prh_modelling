@@ -3,7 +3,7 @@ version: 2
 models:
   - name: store_sales_cleaned
     columns:
-      - name: STORE_NUMBERS
+      - name: STORE_NUMBER
         tests:
           - not_null
       - name: BOOK_NAME

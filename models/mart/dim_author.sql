@@ -2,9 +2,9 @@
 
 SELECT 
   DISTINCT {{ dbt_utils.generate_surrogate_key([
-        'AUTHORS',
+        'f.value'
     ]) 
-  }} as AuthorKey, 
+  }} as Author_Key, 
   f.value::string AS FULL_NAME,
     IFF(
         POSITION(',' IN f.value) > 0,             

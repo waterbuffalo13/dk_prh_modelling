@@ -1,23 +1,20 @@
 # Data Platform Engineer Technical Assessment: Data Modelling & Transformation
 
-The Important Business Question: Which book titles are the highest grossing:
-
 ## Data Model Justification:
 ### Design Decision #1: Normalising into Facts and Dimensions
 
-I chose to break the dataset into the following six dimensions:
-  - **Area[AREA_KEY, AREA_NUMBER, STORE_KEY]**
+I chose to break the dataset into the following seven dimensions:
+  - **Area[AREA_KEY, AREA_NUMBER, AREA_NAME]**
     - Understand the geographic region the product was sold in
-    - STORE_KEY foreign key to include access to store level
   - **Author[AUTHOR_KEY, FULL_NAME, FIRST_NAME, LAST_NAME ]**
     -   In RAW_SALES, the authors are listed as an array which makes it hard to track which authors are involved in the creation of which books (only unique combinations will be tracked instead)
     -   One author can write many books, and a book can be written by many authors
     -   Prices and titles may change over time (e.g. their price)
     -   New versions may be released and books may have the same name
-  - **Book[BOOK_KEY, BOOKAUTHOR_KEY, PUBLISHER_KEY, BOOK_ISBN, BOOK_TITLE, AVAILABILITY, CORE_STOCK_FLAG, PUBLICATION_DATE**
+  - **Book[BOOK_KEY, BOOK_ISBN, PUBLISHER_NAME, AUTHORS, CATEGORY_KEY, BOOK_NAME, PRICE, AVAILABILITY, CORE_STOCK_FLAG, PUBLICATION_DATE**
     - Nearly every instance of the same book had the same CORE_STOCK_FLAG, so i included it in the book table
     - Availability is too small to normalise out, but potentially belongs in a junk dimension.
-  -  **BookAuthors[BOOKAUTHOR_KEY,AUTHOR_KEY, BOOK_KEY, BOOK_TITLE]**
+  -  **BookAuthors[BOOKAUTHOR_KEY,AUTHOR_KEY, BOOK_KEY]**
     - Precalculates what authors are mapped to what books
   - **Category[CATEGORY_KEY, PRODUCT_GROUP, DEPARTMENT, SUB_DEPARTMENT, CLASS]**
   - **Store[STORE_KEY, STORE_NUMBER, STORE_NAME, AREA_KEY]**
@@ -27,6 +24,9 @@ As well as into the following fact tables:
 - **FactSales: A unified table to keep track of sales and returns that occur across the business** 
     - Finances are the most important thing to keep track of within a business.
 - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
+
+And one analytical model:
+- **Highest_grossing_books_per_store: To provide easy access to the main business question**
 
 Considered dimensions:
 - **FactOrders: Potentially a good abstraction but not enough information to map QTY_ON_ORDER to QTY_RECIEVED)**
@@ -49,34 +49,42 @@ Mart:
   - **DIM_AREA: The geographical boundaries where groups of stores are located in**
   - **DIM_BOOKAUTHORS: A mapping of which authors have written what books**
   - **DIM_PUBLISHER: The company and imprint that organised the production, distribution and organisation of the book** 
-  - **FactSales: A unified table to keep track of sales and returns that occur across the business** 
-  - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
+  - **FACT_SALES: A unified table to keep track of sales and returns that occur across the business** 
+  - **FACT_INVENTORY: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
 
 # Testing & Data Quality:
-- RAW: 
-    - Table confines columns to certain data types, so data-type checks are not necessary
-- STAGING:
-    - NO MISSING VALUES
-    - NO DUPLICATE VALUES
-    - STORE_NUMBERS, AREA_NUMBERS, ISBN, PUBLISHER, AVAILABILITY, RRP, CORE_STOCK_FLAG, PRODUCT_GROUP, DEPARTMENT, SUB_DEPARTMENT, CLASS, QTY_ON_HAND, QTY_ON_ORDER, QTY_RECIEVED, QTY_SOLD
-- MART: 
-    - All fact keys exist in dimensions (referential integrity)
-    - Accepted values for publisher (dk, sourcebooks)
-    - No future dates
+
+Tests are applied at two levels, within the schema.yml files in each directory for basic tests (e.g. isNull, valid relationships) and within the /tests files
+- Schema.yml Basic Checks
+    - NOT NULL Checks: Ensure each column contains values
+    - UNIQUE Checks: No duplicate transactions
+    - REFERENTIAL INTEGRITY: KEYS from Dimensions always map to a corresponding value within the FACT KEYS
+- Custom/Tests Checks
+    - NO_NEGATIVE_QTY: Ensure QTY_ON_HAND, QTY_ON_ORDER, QTY_RECIEVED, QTY_SOLD is a positive integer
+    - UNIT_OUT_OF_BOUNDS: Ensure book price exists at a reasonable amount
+    - VALID_SALE_DATE; Ensure that the dates imported do not refer to dates that have not occurred or in the past 
+    - ZERO_QTY_ZERO_AMOUNT: That the price is a non-zero amount
 # Assumptions & Challenges
 Assumptions:
 - That this is the only information in the data warehouse and cannot be enriched/validated with alternative sources
-- Various column definitions (CORE_FLAG_STOCK) 
-- Determining the Sales Amount as RRP * QTY_SOLD (when in reality prices is not always the RRP)
+- The business logic behind many of the dataset columns e.g. CORE_FLAG_STOCK
+- Determining the Sales Amount as RRP * QTY_SOLD 
 - Incoming data will not contain any NULL values
 - Duplicate entries are not possible (QTY_ON_HAND) could/should change after a transactions
 
 Challenges:
-- Ensuring the fact table keys match up with the dimension keys
+- Meeting 100% testing coverage goals for a variety of unusual situations
 - Choosing whether to normalise or denormalise entities
-- Understanding the best approach to understand many to many relationships.
+- Understanding the best approach to handle many to many relationships
 - Connecting snowflake to DBT (finding the right account name)
 - Removing the auto-generated schema name generated using my DBT account name
 - Importing dbt_utils
   
-#Bonus Questions
+Bonus Question (Optional): 
+Briefly describe how you would modify your model to run incrementally.
+
+STEP 1: set materialisation to incremental, and the unique key to the surrogate key
+STEP 2: Add is_incremental() block so that you only get new data every time the model is run
+STEP 3: Run models with full refresh, then subsequent runs should only pull in new data
+
+So when RAW.STORE_SALES is loaded with new data, when the model it will only pull new data in.

@@ -1,0 +1,11 @@
+SELECT *
+FROM {{ ref('store_sales_cleaned') }}
+WHERE 1=1 
+AND price < 0 
+  OR AVAILABLE_STOCK < 0 OR
+  ORDERS_REQUESTED < 0 OR
+  ORDERS_RECIEVED < 0 OR
+  QTY_REFUNDED < 0 OR
+  QTY_SOLD < 0 OR
+  HUB_QTY_ON_HAND < 0 OR
+  HUB_QTY_ON_ORDER < 0
