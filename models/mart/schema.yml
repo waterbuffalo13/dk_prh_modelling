@@ -54,3 +54,18 @@ models:
       - name: QTY_SOLD
         tests:
           - not_null
+
+  - name: BookAuthor
+    columns:
+      - name: BOOK_KEY
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_book')
+              field: BOOK_KEY
+      - name: AUTHOR_KEY
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_author')
+              field: AUTHOR_KEY
