@@ -21,35 +21,62 @@ I chose to break the dataset into the following six dimensions:
   - **Store[STORE_KEY, STORE_NUMBER, STORE_NAME, AREA_KEY]**
   - **Publisher[PUBLISHER_KEY, NAME, IMPRINT]**
 
-As well as into the following fact tables:
-    - **FactSales: A unified table to keep track of sales and returns that occur across the business**
-      - Finances are the most important thing to keep track of within a business.
-    - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
-      - Considered further segmenting into FactOrders but need more information on how orders are processed
+As well as into the following fact tables: 
+- **FactSales: A unified table to keep track of sales and returns that occur across the business** 
+    - Finances are the most important thing to keep track of within a business.
+- **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
+
+Considered dimensions:
+- **FactOrders: Potentially a good abstraction but not enough information to map QTY_ON_ORDER to QTY_RECIEVED) **
+- **DimAvailability: Too small to normalise out by itself, but would fit will in a junk dimension**
+
 
 ### Design Decision #2: Using dbt_utils.generate_surrogate_key as the primary identifier
-The benefits of this approach include:
-    - Simplifies join logic (by hashing multiple columns into a single one).
-    - Deterministic so same input produces same keys
+The main benefit of this approach is that it supports changes to the business key i.e. if the area number refers to a different area in new incoming transactions, then both the prior and the new area number changes can be catalogued in DIM_AREA with the relevant changes.
+However it would be slower then joining two integer-based business keys and there's a small chance of hash collisions.
 
-However:
-    - Possibility of hash collisions
-    - Potentially slower then an auto-incrementing integer
-    - If a person changes there name, then surrogate key will change and 
-
-#Project Overview
+## Project Overview
 Staging:
     - STORE_SALES_CLEANED: The original csv but with new names, casted datatypes (e.g. authors to variant), and cleaned values
 
 Mart:
   - **DIM_AUTHOR: Extracts people who have created a book that has been sold**
-  - **DIM_BOOK: The item/product that has either been ordered/sold/returned.**
+  - **DIM_BOOK: E item/product that has either been ordered/sold/returned.**
   - **DIM_CATEGORY: The various categories and subcategories a book may fall into.**
   - **DIM_STORE: A place where books are sold.**
   - **DIM_AREA: The geographical boundaries where groups of stores are located in**
-  - **FACT_BOOKAUTHORS: A mapping of which authors have written what books**
+  - **DIM_BOOKAUTHORS: A mapping of which authors have written what books**
   - **DIM_PUBLISHER: The company and imprint that organised the production, distribution and organisation of the book** 
+  - **FactSales: A unified table to keep track of sales and returns that occur across the business** 
+  - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
 
-#Data Quality 
-#Assumptions & Challenges
+# Data Quality:
+Tests:
+    RAW: 
+        - Table confines columns to certain data types, so data-type checks are not necessary
+    STAGING:
+        - NO MISSING VALUES
+        - NO DUPLICATE VALUES
+        - STORE_NUMBERS, AREA_NUMBERS, ISBN, PUBLISHER, AVAILABILITY, RRP, CORE_STOCK_FLAG, PRODUCT_GROUP, DEPARTMENT, SUB_DEPARTMENT, CLASS, QTY_ON_HAND, QTY_ON_ORDER, QTY_RECIEVED, QTY_SOLD
+    MART: 
+        - All fact keys exist in dimensions (referential integrity)
+        - Accepted values for publisher (dk, sourcebooks)
+        - No future dates
+        - 
+# Assumptions & Challenges
+Assumptions:
+    - That this is the only information in the data warehouse and cannot be enriched/validated with alternative sources
+    - Various column definitions (CORE_FLAG_STOCK) 
+    - Determining the Sales Amount as RRP * QTY_SOLD (when in reality prices is not always the RRP)
+    - Incoming data will not contain any NULL values
+    - Duplicate entries are not possible (QTY_ON_HAND) could/should change after a transactions
+
+Challenges:
+    - Ensuring the fact table keys match up with the dimension keys
+    - Choosing whether to normalise or denormalise entities
+    - Understanding the best approach to understand many to many relationships.
+    - Connecting snowflake to DBT (finding the right account name)
+    - Replacing the auto-generated schema name concatenated with my DBT account name
+    - Importing dbt_utils
+  
 #Bonus Questions
