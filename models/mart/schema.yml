@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: dim_area
+    columns:
+      - name: AREA_KEY
+        tests:
+          - not_null
+          - unique
+  - name: dim_author
+    columns:
+      - name: AUTHOR_KEY
+        tests:
+          - not_null
+          - unique
+  - name: DIM_BOOK
+    columns:
+      - name: BOOK_ISBN
+        tests:
+          - not_null
+          - unique
+  - name: DIM_CATEGORY
+    columns:
+      - name: CATEGORY_KEY
+        tests:
+          - not_null
+          - unique
+      - name: PRODUCT_GROUP
+        tests:
+          - not_null
+      - name: DEPARTMENT
+        tests:
+          - not_null
+      - name: SUB_DEPARTMENT
+        tests:
+          - not_null
+      - name: CLASS
+        tests:
+          - not_null
+  - name: DIM_PUBLISHER
+    columns:
+      - name: PUBLISHER_KEY
+        tests:
+          - not_null
+          - unique
+  - name: FACT_SALES
+    columns:
+      - name: STORE_NAME
+        tests:
+          - not_null
+      - name: PRICE
+        tests:
+          - not_null
+      - name: QTY_SOLD
+        tests:
+          - not_null
