@@ -1,5 +1,7 @@
 # Data Platform Engineer Technical Assessment: Data Modelling & Transformation
 
+The Important Business Question: Which book titles are the highest grossing:
+
 ## Data Model Justification:
 ### Design Decision #1: Normalising into Facts and Dimensions
 

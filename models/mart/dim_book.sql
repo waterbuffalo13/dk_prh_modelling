@@ -7,7 +7,15 @@ SELECT
     BOOK_ISBN,  
     PUBLISHER_NAME,
     AUTHORS,
+    {{ dbt_utils.generate_surrogate_key([
+        'PRODUCT_GROUP',
+        'DEPARTMENT',
+        'SUB_DEPARTMENT',
+        'CLASS'
+    ]) 
+  }} as Category_Key, 
     BOOK_NAME,
+    
     PRICE,
     CORE_STOCK_FLAG,
     PUBLICATION_DATE,
