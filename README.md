@@ -52,19 +52,17 @@ Mart:
   - **FactSales: A unified table to keep track of sales and returns that occur across the business** 
   - **FactInventory: A table to keep track of QTY_ON_HAND, QTY_ON_ORDER and QTY_RECIEVED.**
 
-# Data Quality:
-Tests:
-    RAW: 
-        - Table confines columns to certain data types, so data-type checks are not necessary
-    STAGING:
-        - NO MISSING VALUES
-        - NO DUPLICATE VALUES
-        - STORE_NUMBERS, AREA_NUMBERS, ISBN, PUBLISHER, AVAILABILITY, RRP, CORE_STOCK_FLAG, PRODUCT_GROUP, DEPARTMENT, SUB_DEPARTMENT, CLASS, QTY_ON_HAND, QTY_ON_ORDER, QTY_RECIEVED, QTY_SOLD
-    MART: 
-        - All fact keys exist in dimensions (referential integrity)
-        - Accepted values for publisher (dk, sourcebooks)
-        - No future dates
-        - 
+# Testing & Data Quality:
+- RAW: 
+    - Table confines columns to certain data types, so data-type checks are not necessary
+- STAGING:
+    - NO MISSING VALUES
+    - NO DUPLICATE VALUES
+    - STORE_NUMBERS, AREA_NUMBERS, ISBN, PUBLISHER, AVAILABILITY, RRP, CORE_STOCK_FLAG, PRODUCT_GROUP, DEPARTMENT, SUB_DEPARTMENT, CLASS, QTY_ON_HAND, QTY_ON_ORDER, QTY_RECIEVED, QTY_SOLD
+- MART: 
+    - All fact keys exist in dimensions (referential integrity)
+    - Accepted values for publisher (dk, sourcebooks)
+    - No future dates
 # Assumptions & Challenges
 Assumptions:
 - That this is the only information in the data warehouse and cannot be enriched/validated with alternative sources
