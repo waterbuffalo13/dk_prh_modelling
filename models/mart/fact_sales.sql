@@ -3,7 +3,9 @@
 SELECT 
     CAST(CREATED_AT AS DATE) AS "Snapshot Date",
     STORE_NAME,
-    BOOK_NAME,
+    {{ dbt_utils.generate_surrogate_key([
+    'BOOK_ISBN' ]) 
+  }} as BOOK_KEY,
     PRICE,
     QTY_SOLD,
     QTY_REFUNDED,
